@@ -1,6 +1,7 @@
 #include "main.h"
 #include "timer.h"
 #include "ball.h"
+#include "fireline.h"
 
 using namespace std;
 
@@ -137,6 +138,9 @@ float lengthToRadius(float sideLength,int n) {
     return 2*sideLength*sin(M_PI/n);
 }
 
+
+
+// Finds a random integer in the range provided
 float rDG(int range) {
     return ((float)(rand()%500))/1000 + rand() % (range + 1);
 }
@@ -207,14 +211,15 @@ void initializeObjects() {
     GLfloat fireLineVertices[50][36];
     float widthLine, heightLine, centerY, angle;
     for(int i = 0; i < noOfFrames ; i++) {
-        widthLine = 1 + rDG(2);
-        heightLine = rDG(0);
+        widthLine = 0.15;
+        heightLine = 3.0;
         angle = 2 * M_PI * rDG(0);
         makeFireLine(fireLineVertices[i],0,0,widthLine,heightLine,angle );
-        centerY = -2.5 + widthLine * sin(angle) / 2 + heightLine*cos(angle) / 2 + rDG((int)(6 - widthLine*sin(angle) - heightLine*cos(angle)));
-        firelines[i] = Ball(-4.0 + i*8 + rDG(8),centerY,0,fireLineVertices[i],12,COLOR_ORANGE);
-        firelines[i].width = widthLine;
-        firelines[i].height = heightLine; 
+        centerY = -1.0 + widthLine * sin(angle) / 2 + heightLine*cos(angle) / 2 + rDG((int)(3 - widthLine*sin(angle) - heightLine*cos(angle)));
+        firelines[i] = FireLine(-4.0 + i*8 + rDG(8),centerY,0,fireLineVertices[i],12,COLOR_ORANGE, widthLine, heightLine, angle);
+        // firelines[i] = Ball(-4.0 + i*8 + rDG(8),centerY,0,fireLineVertices[i],12,COLOR_ORANGE);
+        // firelines[i].width = widthLine;
+        // firelines[i].height = heightLine; 
     }
 
     for(int i = 0; i < 2*noOfFrames ; i+= 2) {
@@ -303,7 +308,7 @@ void tick_input(GLFWwindow *window) {
     int key_a = glfwGetKey(window, GLFW_KEY_A);
     int key_space = glfwGetKey(window, GLFW_KEY_SPACE);
     if (left) {
-        // ball1.speed -= 1;
+         // ball1.speed -= 1;
     }
     if(key_d) {
         movePlayerForward();
