@@ -2,6 +2,7 @@
 #include "timer.h"
 #include "ball.h"
 #include "fireline.h"
+#include "eyes.h"
 
 using namespace std;
 
@@ -18,14 +19,6 @@ int score = 0;
 
 Ball ball1,platform[16*50],top[16*50],wall[2*50],coins[16*50],firelines[50];
 
-float camera_rotation_angle = 90.0f;
-
-// Eye - Location of camera. Don't change unless you are sure!!
-glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
-// Target - Where is the camera looking at.  Don't change unless you are sure!!
-glm::vec3 target (0, 0, 0);
-// Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
-glm::vec3 up (0, 1, 0);
 
 
 void moveWindow(float offset){
@@ -214,12 +207,9 @@ void initializeObjects() {
         widthLine = 0.15;
         heightLine = 3.0;
         angle = 2 * M_PI * rDG(0);
-        makeFireLine(fireLineVertices[i],0,0,widthLine,heightLine,angle );
+        makeFireLine(fireLineVertices[i],0,0,widthLine,heightLine,angle);
         centerY = -1.0 + widthLine * sin(angle) / 2 + heightLine*cos(angle) / 2 + rDG((int)(3 - widthLine*sin(angle) - heightLine*cos(angle)));
         firelines[i] = FireLine(-4.0 + i*8 + rDG(8),centerY,0,fireLineVertices[i],12,COLOR_ORANGE, widthLine, heightLine, angle);
-        // firelines[i] = Ball(-4.0 + i*8 + rDG(8),centerY,0,fireLineVertices[i],12,COLOR_ORANGE);
-        // firelines[i].width = widthLine;
-        // firelines[i].height = heightLine; 
     }
 
     for(int i = 0; i < 2*noOfFrames ; i+= 2) {
